@@ -1,6 +1,9 @@
 import java.util.HashMap;
 
 // A class for the key-value pair in the hash table--We have to use linkedList in this
+
+// How is this program working . I defined an array of linkedList 
+//LinkedList is custom made it has 3 elements. First ---key, Second--value,third Next pointer.
 class MyMapNode {
     String key;
     Integer value;
@@ -13,19 +16,19 @@ class MyMapNode {
     }
 }
 
-// Define a class for the hash table with linked list
+// HashTable Class 
 class MyHashTable {
     private final int size;
     private final MyMapNode[] bucketArray;
 
     public MyHashTable(int size) {
         this.size = size;
-        this.bucketArray = new MyMapNode[size];
+        this.bucketArray = new MyMapNode[size];// Hash Table is an array of linked lists
     }
 
     // Hash function to map a key to an index
     private int getBucketIndex(String key) {
-        int hashCode = key.hashCode();
+        int hashCode = key.hashCode();// from the Obj class
         return Math.abs(hashCode) % size;
     }
 
