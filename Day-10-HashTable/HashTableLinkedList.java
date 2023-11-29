@@ -1,3 +1,11 @@
+/* questions says small linked list thats why we  require just one linked list.
+ *first define node class 
+ * then linked list class.
+ * now I had problem here . in add node ..if the head is null then add the word and make its current count==1.
+ */
+
+
+
 class MyMapNode {
     String key;
     int value;
@@ -11,7 +19,7 @@ class MyMapNode {
 }
 
 class MyLinkedList {
-    MyMapNode head;
+    MyMapNode head;// in java head is NULL by default hehehehehe.
 
     public void addWord(String word) {
         if (head == null) {
