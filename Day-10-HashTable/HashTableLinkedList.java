@@ -1,68 +1,90 @@
-/* questions says small linked list thats why we  require just one linked list.
- *first define node class 
- * then linked list class.
- * now I had problem here . in add node ..if the head is null then add the word and make its current count==1.
+/*
+ * Big linkedList: so here we made an array of linkedList.
+ * we find the the the index in the array by the hash function 
+ * and we traverse that index if we get the word we do freq++
+ * else we add the word to the end of the list
  */
-
 
 
 class MyMapNode {
     String key;
-    int value;
+    Integer value;
     MyMapNode next;
 
-    public MyMapNode(String key, int value) {
+    public MyMapNode(String key, Integer value) {
         this.key = key;
         this.value = value;
         this.next = null;
     }
 }
 
-class MyLinkedList {
-    MyMapNode head;// in java head is NULL by default hehehehehe.
 
-    public void addWord(String word) {
-        if (head == null) {
-            head = new MyMapNode(word, 1);
-        } else {
-            MyMapNode current = head;
-            while (current.next != null && !current.key.equals(word)) {
-                current = current.next;
-            }
+class MyHashTable {
+    private final int size;
+    private final MyMapNode[] bucketArray;
 
-            if (current.key.equals(word)) {
-                current.value++;
-            } else {
-                current.next = new MyMapNode(word, 1);
-            }
-        }
+    public MyHashTable(int size) {
+        this.size = size;
+        this.bucketArray = new MyMapNode[size];
     }
 
+    // Hash function to map a key to an index
+    private int getBucketIndex(String key) {
+        int hashCode = key.hashCode();
+        return Math.abs(hashCode) % size;
+    }
+
+    // Add a key-value pair to the hash table
+    public void addWord(String word) {
+        int index = getBucketIndex(word);
+        MyMapNode head = bucketArray[index];
+
+    
+        while (head != null) {
+            if (head.key.equals(word)) {
+                head.value++;
+                return;
+            }
+            head = head.next;
+        }
+
+        // If the word is not present, add a new node to the linked list
+        head = bucketArray[index];
+        MyMapNode newNode = new MyMapNode(word, 1);
+        newNode.next = head;
+        bucketArray[index] = newNode;
+    }
+
+    // Display the frequency of words in the hash table
     public void displayFrequency() {
-        MyMapNode current = head;
-        while (current != null) {
-            System.out.println("Word: " + current.key + ", Frequency: " + current.value);
-            current = current.next;
+        for (int i = 0; i < size; i++) {
+            MyMapNode head = bucketArray[i];
+            while (head != null) {
+                System.out.println("Word: " + head.key + ", Frequency: " + head.value);
+                head = head.next;
+            }
         }
     }
 }
 
-public class HashTableLinkedList {
+public class HashTableLinkedList{
     public static void main(String[] args) {
         String sentence = "To be or not to be";
-
-        String smallString = sentence.toLowerCase();
+        String smallString= sentence.toLowerCase();
         String[] words = smallString.split("\\s+");
 
-       
-        MyLinkedList wordFrequencyList = new MyLinkedList();
+        // Choose a size for the hash table
+        int hashTableSize = 10;
 
-        // Add words to the linked list
+        // Create a hash table
+        MyHashTable wordFrequencyTable = new MyHashTable(hashTableSize);
+
+        // Add words to the hash table
         for (String word : words) {
-            wordFrequencyList.addWord(word);
+            wordFrequencyTable.addWord(word);
         }
 
         // Display the frequency of words
-        wordFrequencyList.displayFrequency();
+        wordFrequencyTable.displayFrequency();
     }
 }
