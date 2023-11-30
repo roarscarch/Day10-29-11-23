@@ -1,4 +1,10 @@
 
+/*
+ * Big linkedList: so here we made an array of linkedList.
+ * we find the the the index in the array by the hash function 
+ * and we traverse that index if we get the word we do freq++
+ * else we add the word to the end of the list
+ */
 class MyMapNode {
     String key;
     Integer value;
