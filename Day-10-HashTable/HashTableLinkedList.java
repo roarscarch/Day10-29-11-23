@@ -21,7 +21,7 @@ class MyMapNode {
     }
 }
 
-// Define a class for the hash table with linked list
+
 class MyHashTable {
     private final int size;
     private final MyMapNode[] bucketArray;
@@ -31,7 +31,7 @@ class MyHashTable {
         this.bucketArray = new MyMapNode[size];
     }
 
-    // Hash function to map a key to an index
+    
     private int getBucketIndex(String key) {
         int hashCode = key.hashCode();
         return Math.abs(hashCode) % size;
@@ -58,31 +58,31 @@ class MyHashTable {
         bucketArray[index] = newNode;
     }
 
-    // Remove a key-value pair from the hash table
+    
     public void removeWord(String word) {
         int index = getBucketIndex(word);
         MyMapNode head = bucketArray[index];
         MyMapNode prev = null;
 
-        // Search for the word in the linked list
+       
         while (head != null && !head.key.equals(word)) {
             prev = head;
             head = head.next;
         }
 
-        // If the word is found, remove the node
+       
         if (head != null) {
             if (prev == null) {
-                // If the target node is the head of the list
+               
                 bucketArray[index] = head.next;
             } else {
-                // If the target node is in the middle or end of the list
+               
                 prev.next = head.next;
             }
         }
     }
 
-    // Display the frequency of words in the hash table
+   
     public void displayFrequency() {
         for (int i = 0; i < size; i++) {
             MyMapNode head = bucketArray[i];
@@ -104,25 +104,25 @@ public class HashTableLinkedList {
         String smallString=paragraph.toLowerCase();
         String[] words = smallString.split("\\s+");
 
-        // Choose a size for the hash table
+        
         int hashTableSize = 10;
 
-        // Create a hash table
+        
         MyHashTable wordFrequencyTable = new MyHashTable(hashTableSize);
 
-        // Add words to the hash table
+        
         for (String word : words) {
             wordFrequencyTable.addWord(word);
         }
 
-        // Display the frequency of words before removal
+        
         System.out.println("Before Removal:");
         wordFrequencyTable.displayFrequency();
 
-        // Remove the word "avoidable"
+        
         wordFrequencyTable.removeWord("avoidable");
 
-        // Display the frequency of words after removal
+        
         System.out.println("\nAfter Removal:");
         wordFrequencyTable.displayFrequency();
     }
