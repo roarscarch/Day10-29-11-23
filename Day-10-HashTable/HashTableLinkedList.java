@@ -1,10 +1,3 @@
-/*
- * Big linkedList: so here we made an array of linkedList.
- * we find the the the index in the array by the hash function 
- * and we traverse that index if we get the word we do freq++
- * else we add the word to the end of the list
- */
-
 
 class MyMapNode {
     String key;
@@ -18,7 +11,7 @@ class MyMapNode {
     }
 }
 
-
+// Define a class for the hash table with linked list
 class MyHashTable {
     private final int size;
     private final MyMapNode[] bucketArray;
@@ -39,7 +32,7 @@ class MyHashTable {
         int index = getBucketIndex(word);
         MyMapNode head = bucketArray[index];
 
-    
+        // Check if the word is already present in the hash table
         while (head != null) {
             if (head.key.equals(word)) {
                 head.value++;
@@ -55,6 +48,30 @@ class MyHashTable {
         bucketArray[index] = newNode;
     }
 
+    // Remove a key-value pair from the hash table
+    public void removeWord(String word) {
+        int index = getBucketIndex(word);
+        MyMapNode head = bucketArray[index];
+        MyMapNode prev = null;
+
+        // Search for the word in the linked list
+        while (head != null && !head.key.equals(word)) {
+            prev = head;
+            head = head.next;
+        }
+
+        // If the word is found, remove the node
+        if (head != null) {
+            if (prev == null) {
+                // If the target node is the head of the list
+                bucketArray[index] = head.next;
+            } else {
+                // If the target node is in the middle or end of the list
+                prev.next = head.next;
+            }
+        }
+    }
+
     // Display the frequency of words in the hash table
     public void displayFrequency() {
         for (int i = 0; i < size; i++) {
@@ -67,10 +84,14 @@ class MyHashTable {
     }
 }
 
-public class HashTableLinkedList{
+public class HashTableLinkedList {
     public static void main(String[] args) {
-        String sentence = "To be or not to be";
-        String smallString= sentence.toLowerCase();
+        String paragraph = "Paranoids are not paranoid because they are paranoid but "
+                         + "because they keep putting themselves deliberately into "
+                         + "paranoid avoidable situations";
+
+        // Split the paragraph into words
+        String smallString=paragraph.toLowerCase();
         String[] words = smallString.split("\\s+");
 
         // Choose a size for the hash table
@@ -84,7 +105,15 @@ public class HashTableLinkedList{
             wordFrequencyTable.addWord(word);
         }
 
-        // Display the frequency of words
+        // Display the frequency of words before removal
+        System.out.println("Before Removal:");
+        wordFrequencyTable.displayFrequency();
+
+        // Remove the word "avoidable"
+        wordFrequencyTable.removeWord("avoidable");
+
+        // Display the frequency of words after removal
+        System.out.println("\nAfter Removal:");
         wordFrequencyTable.displayFrequency();
     }
 }
